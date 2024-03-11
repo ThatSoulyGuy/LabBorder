@@ -1,0 +1,10 @@
+
+
+#Sets global data for the world
+
+#World border's size
+border-size: 150
+#World border controller's size
+border-controller-name: '&4&lBORDER SMP &6&lGOD'
+#World border controller's entity type
+border-controller-type: 'PIG'

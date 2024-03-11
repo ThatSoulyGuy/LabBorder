@@ -1,0 +1,14 @@
+name: LabBorder
+version: '${project.version}'
+main: com.thatsoulyguy.labborder.LabBorder
+api-version: '1.20'
+
+depend:
+  - SoulCore
+
+commands:
+  labborder:
+    aliases:
+      - lborder
+      - labb
+      - lb
