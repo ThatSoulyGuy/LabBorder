@@ -10,7 +10,11 @@ import com.thatsoulyguy.soulcore.command.SCommandManager;
 import com.thatsoulyguy.soulcore.config.SConfig;
 import com.thatsoulyguy.soulcore.update.SUpdateManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.units.qual.A;
@@ -49,15 +53,41 @@ public final class LabBorder extends JavaPlugin
         for(World world : Bukkit.getWorlds())
             world.getWorldBorder().setSize((int) defaultConfig.GetValue("border-size"));
 
-        SUpdateManager.Initialize(this);
+        SUpdateManager.Initialize(this, (int) defaultConfig.GetValue("update-frequency"));
 
         SUpdateManager.Register("updateWorldBorder", () ->
         {
             if(worldBorderControllers.keySet().isEmpty())
                 return;
 
-            for(Map.Entry<World, Entity> controller : worldBorderControllers.entrySet())
+            for (Map.Entry<World, Entity> controller : worldBorderControllers.entrySet())
+            {
                 controller.getKey().getWorldBorder().setCenter(controller.getValue().getLocation());
+
+                if(((String) defaultConfig.GetValue("border-controller-frost-walker")).contains("true"))
+                {
+                    Location center = controller.getValue().getLocation();
+                    int radius = (int) defaultConfig.GetValue("border-controller-frost-walker-radius");
+                    World world = center.getWorld();
+
+                    if (world != null)
+                    {
+                        for (int x = center.getBlockX() - radius; x <= center.getBlockX() + radius; x++)
+                        {
+                            for (int y = center.getBlockY() - radius; y <= center.getBlockY() + radius; y++)
+                            {
+                                for (int z = center.getBlockZ() - radius; z <= center.getBlockZ() + radius; z++)
+                                {
+                                    Block block = world.getBlockAt(x, y, z);
+
+                                    if (block.getType() == Material.WATER && block.getRelative(BlockFace.UP).getType() == Material.AIR)
+                                        block.setType(Material.ICE);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         });
     }
 

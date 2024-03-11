@@ -8,3 +8,15 @@ border-size: 150
 border-controller-name: '&4&lBORDER SMP &6&lGOD'
 #World border controller's entity type
 border-controller-type: 'PIG'
+
+#Sets weather the world border controller generates ice around it if there is water
+border-controller-frost-walker: 'true'
+#Sets the radius that ice will generate around the world border controller if the above is enabled
+border-controller-frost-walker-radius: 5
+
+#Sets plugin data
+
+#Update frequency (NOTE: THIS CAN RESULT IN MAJOR PERFORMANCE DECREASES)
+#The lower this value, the faster the updates and vice-versa.
+#An update frequency of '40' means 1 update every second. Recommended for smaller servers.
+update-frequency: 40
